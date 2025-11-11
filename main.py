@@ -6,6 +6,25 @@ root.title('Výpočet BMI')
 root.geometry('250x250')
 root.resizable(False, False)
 
+# Function
+def calculate_bmi(weight, hight):
+	text_result = ''
+	bmi = round(float(weight)/float(height)**2, 2)
+	if bmi < 18.5:
+		text_result = 'podváha'
+	elif bmi < 24.9:
+		text_result = 'normal'
+	elif bmi < 29.9:
+		text_result = 'nadváha'
+	elif bmi < 34.9:
+		text_result = 'obezita'
+	elif bmi >= 34.9:
+		text_result = 'extrémní obezita'
+
+	print(bmi)
+	print(text_result)
+
+
 # general Label
 label_general = Label(root, text='Výpočet BMI')
 label_general.grid(row=0, column=1)
@@ -25,7 +44,7 @@ entry_height = Entry(root)
 entry_height.grid(row=2, column=1)
 
 # button
-button = Button(root, text='Vypočítat')
+button = Button(root, text='Vypočítat', command=lambda:calculate_bmi(entry_weight.get(), entry_height.get()))
 button.grid(row=3, column=1)
 
 # result seciton
