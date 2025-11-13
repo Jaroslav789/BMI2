@@ -37,11 +37,26 @@ def insert_data(bmi_n, bmi_t):
 	)
 	cur = connection.cursor()
 
-	query = '''insert into bmi(bmi_number, bmi_text) values (%s, %s)'''
+	query = '''INSERT INTO bmi(bmi_number, bmi_text) values (%s, %s)'''
 
 	cur.execute(query, (bmi_n, bmi_t))
 	connection.commit()
 	connection.close()
+
+def count_all_data():
+	connection = psycopg2.connect(
+		dbname='health',
+		user='postgres',
+		password='admin',
+		host='localhost',
+		port='5432'
+	)
+	cur = connection.cursor()
+	query = '''SELECT COUNT(bmi_id) FROM bmi'''
+	cur.execute(query)
+	count = cur.fetchone()
+	connection.close()
+	return count[0]
 
 # general Label
 label_general = Label(root, text='Výpočet BMI')
@@ -81,7 +96,7 @@ label_user_result_2.grid(row=5, column=1)
 label_count_text = Label(root, text='Počet uživatelů:')
 label_count_text.grid(row=6, column=0)
 
-label_count_number = Label(root, text='DOPLNIT')
+label_count_number = Label(root, text=count_all_data())
 label_count_number.grid(row=6, column=1)
 
 root.mainloop()
