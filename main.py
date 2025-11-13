@@ -25,6 +25,23 @@ def calculate_bmi(weight, height):
 	label_user_result_1['text'] = bmi
 	label_user_result_2['text'] = text_result
 
+	insert_data(bmi, text_result)
+
+def insert_data(bmi_n, bmi_t):
+	connection = psycopg2.connect(
+		dbname='health',
+		user='postgres',
+		password='admin',
+		host='localhost',
+		port='5432'
+	)
+	cur = connection.cursor()
+
+	query = '''insert into bmi(bmi_number, bmi_text) values (%s, %s)'''
+
+	cur.execute(query, (bmi_n, bmi_t))
+	connection.commit()
+	connection.close()
 
 # general Label
 label_general = Label(root, text='Výpočet BMI')
