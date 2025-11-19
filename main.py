@@ -29,9 +29,10 @@ def calculate_bmi(weight, height):
 
 def check_dot(number):
 	number_string = str(number)
-	if ',' in number_string:
-		return number_string.replace(',', '.')
-	return number
+	# if ',' in number_string:
+	# 	return number_string.replace(',', '.')
+	# return number_string
+	return number_string.replace(',', '.') if ',' in number_string else number_string
 
 def insert_data(bmi_n, bmi_t):
 	connection = psycopg2.connect(
