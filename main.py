@@ -8,8 +8,15 @@ root.resizable(False, False)
 
 # Function
 def calculate_bmi(weight, height):
-	text_result = ''
-	bmi = round(float(weight)/float(height)**2, 2)
+	try:
+		weight = float(weight)
+		height = float(height)
+	except ValueError:
+		label_user_result_1['text'] = 'chyba'
+		label_user_result_2['text'] = 'chyba'
+		return None
+
+	bmi = round(weight/height**2, 2)
 	if bmi < 18.5:
 		text_result = 'podváha'
 	elif bmi < 24.9:
@@ -34,42 +41,12 @@ def check_dot(number):
 	# return number_string
 	return number_string.replace(',', '.') if ',' in number_string else number_string
 
-# def insert_data(bmi_n, bmi_t):
-# 	connection = psycopg2.connect(
-# 		dbname='health',
-# 		user='postgres',
-# 		password='admin',
-# 		host='localhost',
-# 		port='5432'
-# 	)
-# 	cur = connection.cursor()
-
-# 	query = '''INSERT INTO bmi(bmi_number, bmi_text) values (%s, %s)'''
-
-# 	cur.execute(query, (bmi_n, bmi_t))
-# 	connection.commit()
-# 	connection.close()
-
+# Database function
 def insert_data(bmi_n, bmi_t):
 	query = '''INSERT INTO bmi(bmi_number, bmi_text) values (%s, %s)'''
 	with psycopg2.connect(dbname='health', user='postgres', password='admin', host='localhost', port='5432') as conn:
 		with conn.cursor() as cur:
 			cur.execute(query, (bmi_n, bmi_t))
-
-# def count_all_data():
-# 	connection = psycopg2.connect(
-# 		dbname='health',
-# 		user='postgres',
-# 		password='admin',
-# 		host='localhost',
-# 		port='5432'
-# 	)
-# 	cur = connection.cursor()
-# 	query = '''SELECT COUNT(bmi_id) FROM bmi'''
-# 	cur.execute(query)
-# 	count = cur.fetchone()
-# 	connection.close()
-# 	return count[0]
 
 def count_all_data():
 	query = '''SELECT COUNT(bmi_id) FROM bmi'''
